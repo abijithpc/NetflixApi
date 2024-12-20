@@ -16,17 +16,26 @@ class NumberTtitleCard extends StatelessWidget {
         MainTitle(title: "Top 10 Tv Shows in India Today"),
         kHeight,
         LimitedBox(
-          maxHeight: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: List.generate(
-              10,
-              (index) => Numbercard(
-                index: index,
-              ),
-            ),
-          ),
-        )
+            maxHeight: 200,
+            child: ValueListenableBuilder(
+              valueListenable: top10TvShowsInIndiaTodayListNotifier,
+              builder: (context, value, _) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount:
+                      top10TvShowsInIndiaTodayListNotifier.value.isNotEmpty
+                          ? 10
+                          : top10TvShowsInIndiaTodayListNotifier.value.length,
+                  itemBuilder: (context, index) {
+                    var data = value[index];
+                    return Numbercard(
+                      index: index + 1,
+                      movie: data,
+                    );
+                  },
+                );
+              },
+            ))
       ],
     );
   }

@@ -4,7 +4,8 @@ import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constant.dart';
 
 class MainBackgroundcard extends StatelessWidget {
-  const MainBackgroundcard({super.key});
+  const MainBackgroundcard({super.key, required this.image});
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class MainBackgroundcard extends StatelessWidget {
           height: 600,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(kMainImage))),
+                  fit: BoxFit.cover, image: NetworkImage(imagePath+image!))),
         ),
         Positioned(
           bottom: 0,

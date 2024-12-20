@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:netflix/core/constant.dart';
 
 class downloadsImageWidget extends StatelessWidget {
   const downloadsImageWidget(
@@ -11,7 +12,7 @@ class downloadsImageWidget extends StatelessWidget {
       this.borderRadius = 10,
       required this.size});
 
-  final String imageList;
+  final String? imageList;
   final double angle;
   final EdgeInsets margin;
   final Size size;
@@ -30,7 +31,8 @@ class downloadsImageWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(borderRadius),
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(imageList))),
+                    fit: BoxFit.cover,
+                    image: NetworkImage("$imagePath$imageList"))),
           ),
         ),
       ),

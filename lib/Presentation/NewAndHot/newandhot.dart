@@ -5,8 +5,8 @@ import 'package:netflix/Presentation/NewAndHot/Widget/everyonesWatchingwidget.da
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constant.dart';
 
-class NewAndHot extends StatelessWidget {
-  const NewAndHot({super.key});
+class ScreenNewAndHot extends StatelessWidget {
+  const ScreenNewAndHot({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,71 +14,84 @@ class NewAndHot extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(90),
+          preferredSize: const Size.fromHeight(100),
           child: AppBar(
             title: Text(
-              "New & Hot",
+              'New & Hot',
               style: GoogleFonts.montserrat(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+                  fontSize: 30, fontWeight: FontWeight.bold, color: kWhiteColors),
             ),
             actions: [
               const Icon(
                 Icons.cast,
                 color: Colors.white,
-                size: 30,
               ),
               kwidth,
               Container(
-                height: 30,
                 width: 30,
+                height: 30,
                 color: Colors.blue,
               ),
-              kwidth,
+              kwidth
             ],
             bottom: TabBar(
-              labelColor: kBlackColors,
-              unselectedLabelColor: kWhiteColors,
-              isScrollable: true,
-              labelStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              indicator: BoxDecoration(
-                color: kWhiteColors,
-                borderRadius: kRadius30,
-                // Adjust height and width using constraints
-                shape: BoxShape.rectangle,
-              ),
-              indicatorSize: TabBarIndicatorSize.tab, // Matches tab size
-              tabs: const [
-                Tab(text: "🍿 Coming Soon"),
-                Tab(text: "👀 Everyone's Watching"),
-              ],
-            ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorWeight: 0.5,
+                labelColor: kBlackColors,
+                isScrollable: true,
+                labelStyle:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                unselectedLabelColor: kWhiteColors,
+                indicator: BoxDecoration(
+                  color: kWhiteColors,
+                  borderRadius: kRadius30,
+                ),
+                tabs: const [
+                  Tab(
+                    text: '🍿Coming Soon',
+                  ),
+                  Tab(
+                    text: "👀Everyone's Watching",
+                  )
+                ]),
           ),
         ),
         body: TabBarView(children: [
-          _buildComingSoon(),
-          _buildEveryOnesWatching(),
+          _buildComingSoon(context),
+          _buildEveryoneWatching(),
         ]),
       ),
     );
   }
 
-  Widget _buildComingSoon() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, index) => ComingSoonWidget(),
-    );
+  Widget _buildComingSoon(BuildContext context) {
+    return ValueListenableBuilder(
+        valueListenable: upcomingListNotifier,
+        builder: (context, value, _) {
+          return ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              var data = value[index];
+              return ComingSoonWidget(
+                movie: data,
+              );
+            },
+          );
+        });
   }
 
-  Widget _buildEveryOnesWatching() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, index) => const everyoneWatchingWidget(),
-    );
+  _buildEveryoneWatching() {
+    return ValueListenableBuilder(
+        valueListenable: topRatedListNotifier,
+        builder: (context, value, _) {
+          return ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                var data = value[index];
+                return EveryOnesWatchingWidget(
+                  movie: data,
+                );
+              });
+        });
   }
 }

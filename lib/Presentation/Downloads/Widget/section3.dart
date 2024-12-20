@@ -30,8 +30,8 @@ class Section3 extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: kWhiteColors,
           onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+          child: const Padding(
+            padding:  EdgeInsets.symmetric(vertical: 10),
             child: Text(
               "See what you can download",
               style: TextStyle(color: kBlackColors, fontSize: 20),

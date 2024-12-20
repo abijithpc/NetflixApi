@@ -1,87 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:netflix/Presentation/HomePage/widget/maincustombutton.dart';
 import 'package:netflix/Presentation/widgets/video_widget.dart';
-import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constant.dart';
+import 'package:netflix/models/models.dart';
+import 'package:intl/intl.dart';
 
 class ComingSoonWidget extends StatelessWidget {
-  const ComingSoonWidget({
-    super.key,
+  ComingSoonWidget({
+    super.key, required this.movie,
   });
-
+  final Movie movie;
+  final DateFormat monthFormatter = DateFormat('MMM');
+  final DateFormat dayFormatter = DateFormat('dd');
+  final DateFormat dayFormatterDay = DateFormat('EEEE');
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Row(
       children: [
-        const SizedBox(
+         SizedBox(
           width: 50,
-          height: 450,
+          height: 500,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "FEB",
-                style: TextStyle(fontSize: 20, color: kGreyColor),
-              ),
-              Text(
-                "11",
-                style: TextStyle(
-                    letterSpacing: 4,
-                    fontSize: 30,
+             Text(
+                monthFormatter.format(DateTime.parse(movie.releaseDate!)).toUpperCase(),
+                style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
                     fontWeight: FontWeight.bold),
+              ),
+               Text(
+                dayFormatter.format(DateTime.parse(movie.releaseDate!)),
+                style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 3),
               )
             ],
           ),
         ),
         SizedBox(
           width: size.width - 50,
-          height: 450,
-          child: const Column(
+          height: 500,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              videoWidget(),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  children: [
-                    Text(
-                      "Tall Girl 2",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              VideoWidget(image: movie.posterPath,),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: size.width-170,
+                    height: 50,
+                    child: Text(
+                      '${movie.title}',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        letterSpacing: -4,
+                        overflow: TextOverflow.fade
+                      ),
                     ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        MainCustomButton(
-                            iconsize: 20,
-                            fontsize: 16,
-                            icon: FontAwesomeIcons.bell,
-                            title: "Remind Me"),
-                        kwidth,
-                        MainCustomButton(
-                            iconsize: 20,
-                            fontsize: 16,
-                            icon: Icons.info_outline_rounded,
-                            title: "Info")
-                      ],
-                    )
-                  ],
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      MainCustomButton(
+                        icon: Icons.alarm,
+                        title: 'Remind me',
+                        iconsize: 15,
+                        fontsize: 12,
+                      ),
+                      kwidth,
+                      MainCustomButton(
+                        icon: Icons.info,
+                        title: 'Info',
+                        iconsize: 15,
+                        fontsize: 12,
+                      ),
+                      kwidth
+                    ],
+                  )
+                ],
+              ),
+              kHeight,
+              Text('Coming on ${dayFormatterDay.format(DateTime.parse(movie.releaseDate!))}'),
+              kHeight,
+              Text(
+                '${movie.title}',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text("Coming On Firday"),
               kHeight,
-              const Text(
-                "Tall Girl 2",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              kHeight,
-              const Text(
-                "Landing the lead in the School musical is a dream come true for jodi, until the pressure sends her confidence-and her relationship-into a tailspin ",
-                style: TextStyle(color: kGreyColor, fontSize: 15),
+              Text(
+                '${movie.overview}',
+                style: TextStyle(color: Colors.grey,overflow: TextOverflow.fade),
               )
             ],
           ),
@@ -90,4 +108,7 @@ class ComingSoonWidget extends StatelessWidget {
     );
   }
 }
+
+const newandhottempimg =
+    'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/Aa9TLpNpBMyRkD8sPJ7ACKLjt0l.jpg';
 

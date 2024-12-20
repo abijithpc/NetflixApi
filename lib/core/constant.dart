@@ -9,13 +9,16 @@ const kHeight20 = SizedBox(height: 20);
 
 const kHeight50 = SizedBox(height: 50);
 
-const ApiKey = "296b72446cc2e9a48d1c4f91e6e30231";
+const apiKey = "296b72446cc2e9a48d1c4f91e6e30231";
+
+const imagePath = 'https://image.tmdb.org/t/p/w500';
 
 final BorderRadius kRadius10 = BorderRadius.circular(10);
 final BorderRadius kRadius30 = BorderRadius.circular(30);
 
 const kMainImage =
     "https://image.tmdb.org/t/p/w600_and_h900_bestv2/wPLysNDLffQLOVebZQCbXJEv6E6.jpg";
+    
 TextStyle kHomeTitletext = TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 
 const newAndHotImage =

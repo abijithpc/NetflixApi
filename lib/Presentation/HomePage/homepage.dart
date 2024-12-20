@@ -1,21 +1,36 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:netflix/Api/api.dart';
 import 'package:netflix/Presentation/HomePage/widget/main-bg-card.dart';
 import 'package:netflix/Presentation/HomePage/widget/numbertitlecard.dart';
 import 'package:netflix/Presentation/widgets/maintitlecardhome.dart';
 import 'package:netflix/core/constant.dart';
 
 ValueNotifier<bool> scrollNotifier = ValueNotifier(true);
+int randomIndex = 0;
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
+  fetchData() async {
+    trendingNowListNotifeir.value = await Api().getTrendingMovies();
+    topRatedListNotifier.value = await Api().getTopRated();
+    upcomingListNotifier.value = await Api().getUpComing();
+    top10TvShowsInIndiaTodayListNotifier.value =
+        await Api().getTop10TvShowsInIndiaToday();
+    final random = Random();
+    randomIndex = random.nextInt(10);
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetchData();
     return Scaffold(
         body: ValueListenableBuilder(
       valueListenable: scrollNotifier,
-      builder: (context, index, _) {
+      builder: (BuildContext context, index, _) {
         return NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
             final ScrollDirection direction = notification.direction;
@@ -29,24 +44,40 @@ class Homepage extends StatelessWidget {
           child: Stack(
             children: [
               ListView(
-                children: const [
-                  MainBackgroundcard(),
+                children: [
+                  FutureBuilder(
+                    future: Api().getTrendingMovies(),
+                    builder: (context, snapshot) => snapshot.hasData
+                        ? MainBackgroundcard(
+                            image: snapshot.data![randomIndex].posterPath,
+                          )
+                        : const SizedBox(
+                            height: 700,
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                  ),
                   kHeight,
                   MainTitleCardHome(
+                    listNotifier: trendingNowListNotifeir,
                     title: "Released in the past year",
                   ),
                   kHeight,
                   MainTitleCardHome(
+                    listNotifier: topRatedListNotifier,
                     title: "Trending Now",
                   ),
                   kHeight,
                   NumberTtitleCard(),
                   kHeight,
                   MainTitleCardHome(
+                    listNotifier: upcomingListNotifier,
                     title: "Tense Dramas",
                   ),
                   kHeight,
                   MainTitleCardHome(
+                    listNotifier: topRatedListNotifier,
                     title: "South Indian Cinema",
                   ),
                 ],

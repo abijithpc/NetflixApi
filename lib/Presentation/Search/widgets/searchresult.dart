@@ -1,12 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:netflix/Api/api.dart';
 import 'package:netflix/Presentation/Search/widgets/title.dart';
 import 'package:netflix/core/constant.dart';
+import 'package:netflix/models/models.dart';
 
 const imageurl =
     "https://media.themoviedb.org/t/p/w533_and_h300_bestv2/ay8uvMrQNQcChIDMyfw60eAziQv.jpg";
 
 class SearchresultWidget extends StatelessWidget {
-  const SearchresultWidget({super.key});
+  const SearchresultWidget({super.key, required this.result});
+  final String result;
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +19,40 @@ class SearchresultWidget extends StatelessWidget {
         const SearchTitle(title: "Movies & Tv"),
         kHeight,
         Expanded(
-            child: GridView.count(
-          mainAxisSpacing: 8,
-          crossAxisCount: 3,
-          crossAxisSpacing: 8,
-          childAspectRatio: 1 / 1.4,
-          shrinkWrap: true,
-          children: List.generate(
-            20,
-            (index) {
-              return const MainCard();
-            },
-          ),
+            child: FutureBuilder(
+          future: Api().searchResult(result),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Error loading data'),
+              );
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text('No Data Found'),
+              );
+            } else {
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 8,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 1 / 1.4,
+                ),
+                itemBuilder: (context, index) {
+                  var data = snapshot.data![index];
+                  return MainCard(
+                    movie: data,
+                  );
+                },
+                itemCount: snapshot.data!.length,
+                shrinkWrap: true,
+              );
+            }
+          },
         ))
       ],
     );
@@ -35,14 +60,17 @@ class SearchresultWidget extends StatelessWidget {
 }
 
 class MainCard extends StatelessWidget {
-  const MainCard({super.key});
+  const MainCard({super.key, required this.movie});
+
+  final Movie movie;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          image: const DecorationImage(
-              image: NetworkImage(imageurl), fit: BoxFit.cover),
+          image: DecorationImage(
+              image: NetworkImage("$imagePath${movie.posterPath}"),
+              fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(7)),
     );
   }

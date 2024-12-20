@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:netflix/core/constant.dart';
+import 'package:netflix/models/models.dart';
 
 class MainHomeScreenCard extends StatelessWidget {
-  const MainHomeScreenCard({
-    super.key,
-  });
+  const MainHomeScreenCard({super.key, required this.movie});
+  final Movie movie;
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,10 @@ class MainHomeScreenCard extends StatelessWidget {
       height: 250,
       decoration: BoxDecoration(
           borderRadius: kRadius10,
-          image: const DecorationImage(
+          image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                "https://media.themoviedb.org/t/p/w220_and_h330_face/sjMN7DRi4sGiledsmllEw5HJjPy.jpg",
+                "$imagePath${movie.posterPath}",
               ))),
     );
   }

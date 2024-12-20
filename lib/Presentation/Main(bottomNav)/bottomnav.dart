@@ -9,7 +9,13 @@ import 'package:netflix/Presentation/Search/search.dart';
 class Bottomnav extends StatelessWidget {
   Bottomnav({super.key});
 
-  final _pages = [Homepage(), NewAndHot(), Fastlaugh(), Search(), Downloads()];
+  final _pages = [
+    Homepage(),
+    ScreenNewAndHot(),
+    Fastlaugh(),
+    Search(),
+    Downloads()
+  ];
 
   @override
   Widget build(BuildContext context) {

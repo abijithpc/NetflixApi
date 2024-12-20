@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constant.dart';
 
-class videoWidget extends StatelessWidget {
-  const videoWidget({
+class VideoWidget extends StatelessWidget {
+  const VideoWidget({
     super.key,
+    required this.image,
   });
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -13,20 +16,22 @@ class videoWidget extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           height: 200,
-          child: Image.network(fit: BoxFit.cover, newAndHotImage),
+          child: Image.network(
+           '$imagePath$image',
+            fit: BoxFit.cover,
+          ),
         ),
         Positioned(
-          bottom: 10,
+          bottom: 0,
           right: 10,
           child: CircleAvatar(
+            backgroundColor: Colors.black.withOpacity(0.5),
             radius: 22,
-            backgroundColor: Colors.black,
             child: IconButton(
                 onPressed: () {},
                 icon: const Icon(
-                  Icons.volume_up,
-                  color: Colors.white,
-                  size: 20,
+                  Icons.volume_off,
+                  color: kWhiteColors,
                 )),
           ),
         ),

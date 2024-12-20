@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:netflix/Presentation/Search/search_idle.dart';
 import 'package:netflix/core/colors/colors.dart';
+import 'package:netflix/core/constant.dart';
+import 'package:netflix/models/models.dart';
 
 class TopSearchItemsTile extends StatelessWidget {
-  const TopSearchItemsTile({super.key});
+  const TopSearchItemsTile({super.key, required this.movie});
+  final Movie movie;
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +15,19 @@ class TopSearchItemsTile extends StatelessWidget {
         Container(
           width: screenwidth * 0.35,
           height: 65,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(imageurl))),
+                  fit: BoxFit.cover,
+                  image: NetworkImage("$imagePath${movie.backdroppath}"))),
         ),
-        const Expanded(
+        kwidth,
+        Expanded(
             child: Text(
-          "Movie Name",
-          style: TextStyle(
+          movie.title!,
+          style: const TextStyle(
               color: kWhiteColors, fontSize: 16, fontWeight: FontWeight.bold),
         )),
-        Icon(
+        const Icon(
           CupertinoIcons.play_circle,
           size: 45,
           color: kWhiteColors,

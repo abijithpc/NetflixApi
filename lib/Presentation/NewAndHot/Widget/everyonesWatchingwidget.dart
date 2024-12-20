@@ -1,46 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:netflix/Presentation/HomePage/widget/maincustombutton.dart';
 import 'package:netflix/Presentation/widgets/video_widget.dart';
-import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constant.dart';
+import 'package:netflix/models/models.dart';
 
-class everyoneWatchingWidget extends StatelessWidget {
-  const everyoneWatchingWidget({
+class EveryOnesWatchingWidget extends StatelessWidget {
+  const EveryOnesWatchingWidget({
     super.key,
+    required this.movie,
   });
+  final Movie movie;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         kHeight,
         Text(
-          "Friends",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          '${movie.title}',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         kHeight,
         Text(
-          "This sitcom follows the misadventure of six 20-something pals as they navigate the pitfall of work, life and love in 1990s manhattan",
-          style: TextStyle(color: kGreyColor, fontSize: 15),
+          '${movie.overview}',
+          style: TextStyle(color: Colors.grey),
         ),
         kHeight50,
-        videoWidget(),
-        kHeight,
+        VideoWidget(
+          image: movie.posterPath,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             MainCustomButton(
-                iconsize: 25, fontsize: 16, icon: Icons.share, title: "Share"),
+              icon: Icons.share,
+              title: 'Share',
+              iconsize: 25,
+              fontsize: 16,
+            ),
             kwidth,
             MainCustomButton(
-                iconsize: 20, fontsize: 16, icon: Icons.add, title: "My List"),
+              icon: Icons.add,
+              title: 'My List',
+              iconsize: 28,
+              fontsize: 16,
+            ),
             kwidth,
             MainCustomButton(
-                iconsize: 25,
-                fontsize: 16,
-                icon: Icons.play_arrow,
-                title: "Play"),
+              icon: Icons.play_arrow,
+              title: 'Play',
+              iconsize: 25,
+              fontsize: 16,
+            ),
             kwidth,
           ],
         )
@@ -48,3 +63,6 @@ class everyoneWatchingWidget extends StatelessWidget {
     );
   }
 }
+
+const everyonewatchingimg =
+    'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/9iRRfMZbnpgHDdKi2lczGGYZXDo.jpg';
